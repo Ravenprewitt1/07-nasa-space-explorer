@@ -119,7 +119,26 @@ button {
   font-weight: 600;
 }
 
+.video-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 50px;
+  border-radius: 0;
+  border: 2px solid #e0e0e0;
+  color: var(--nasa-dark-gray);
+  background-color: white;
+  font-weight: 600;
+}
+
 .moon-filter input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--nasa-blue);
+}
+
+.video-filter input[type="checkbox"] {
   width: 18px;
   height: 18px;
   accent-color: var(--nasa-blue);
@@ -130,7 +149,17 @@ button {
   line-height: 1;
 }
 
+.video-filter-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
 .moon-filter:has(input:checked) {
+  border-color: var(--nasa-red);
+  box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
+}
+
+.video-filter:has(input:checked) {
   border-color: var(--nasa-red);
   box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
 }
@@ -198,7 +227,8 @@ button:active {
   
   input[type="date"],
   button,
-  .moon-filter {
+  .moon-filter,
+  .video-filter {
     width: auto;
     flex: 1;
   }
