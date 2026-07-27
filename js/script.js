@@ -1,8 +1,11 @@
 // Find our date picker inputs on the page
 const startInput = document.getElementById('startDate');
 const endInput = document.getElementById('endDate');
+const moonFilterInput = document.getElementById('moonFilter');
 const getImagesButton = document.querySelector('.filters button');
 const gallery = document.getElementById('gallery');
+
+let currentApodItems = [];
 
 // Modal elements
 const modal = document.getElementById('modal');
@@ -73,13 +76,14 @@ function createGalleryItem(apodItem) {
   }
 
   const title = document.createElement('h3');
-  title.textContent = apodItem.title + ' (' + apodItem.date + ')';
+  title.textContent = apodItem.title;
 
-  const description = document.createElement('p');
-  description.textContent = apodItem.explanation;
+  const date = document.createElement('p');
+  date.className = 'gallery-date';
+  date.textContent = apodItem.date;
 
   card.appendChild(title);
-  card.appendChild(description);
+  card.appendChild(date);
 
   // Add click handler to open modal
   card.addEventListener('click', () => {
@@ -87,6 +91,33 @@ function createGalleryItem(apodItem) {
   });
 
   return card;
+}
+
+function isMoonItem(apodItem) {
+  const searchableText = (apodItem.title + ' ' + apodItem.explanation).toLowerCase();
+  return searchableText.includes('moon') || searchableText.includes('lunar');
+}
+
+function renderGallery(items) {
+  const shouldFilterMoon = moonFilterInput.checked;
+  const itemsToRender = shouldFilterMoon ? items.filter(isMoonItem) : items;
+
+  if (itemsToRender.length === 0) {
+    if (items.length === 0) {
+      showMessage('No images found for this date range.');
+      return;
+    }
+
+    showMessage('No Moon images found in this date range. Try a different range.');
+    return;
+  }
+
+  gallery.innerHTML = '';
+  itemsToRender.forEach((item, index) => {
+    const card = createGalleryItem(item);
+    card.style.setProperty('--card-delay', index * 90 + 'ms');
+    gallery.appendChild(card);
+  });
 }
 
 function openModal(apodItem) {
@@ -160,21 +191,11 @@ async function fetchSpaceImagesByDateRange() {
     }
 
     const data = await response.json();
-    const apodItems = Array.isArray(data) ? data : [data];
-
-    if (apodItems.length === 0) {
-      showMessage('No images found for this date range.');
-      return;
-    }
+    currentApodItems = Array.isArray(data) ? data : [data];
 
     // Show newest image first.
-    apodItems.sort((a, b) => b.date.localeCompare(a.date));
-
-    gallery.innerHTML = '';
-    apodItems.forEach((item) => {
-      const card = createGalleryItem(item);
-      gallery.appendChild(card);
-    });
+    currentApodItems.sort((a, b) => b.date.localeCompare(a.date));
+    renderGallery(currentApodItems);
   } catch (error) {
     showMessage('Something went wrong while contacting NASA. Please try again.');
     console.error(error);
@@ -182,6 +203,14 @@ async function fetchSpaceImagesByDateRange() {
 }
 
 getImagesButton.addEventListener('click', fetchSpaceImagesByDateRange);
+
+moonFilterInput.addEventListener('change', () => {
+  if (currentApodItems.length === 0) {
+    return;
+  }
+
+  renderGallery(currentApodItems);
+});
 
 // Modal close listeners
 modalClose.addEventListener('click', closeModal);

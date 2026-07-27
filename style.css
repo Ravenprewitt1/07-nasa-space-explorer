@@ -36,7 +36,7 @@ body {
   padding: 30px 20px;
   margin-bottom: 30px;
   background: linear-gradient(135deg, var(--nasa-blue) 0%, #0a2d75 100%);
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 10px 40px rgba(11, 61, 145, 0.2);
   animation: slideDown 0.6s ease-out;
 }
@@ -77,7 +77,7 @@ h1 {
   margin-bottom: 40px;
   padding: 25px;
   background: white;
-  border-radius: 12px;
+  border-radius: 0;
   box-shadow: 0 4px 20px rgba(11, 61, 145, 0.08);
   animation: fadeIn 0.6s ease-out 0.2s both;
 }
@@ -99,11 +99,40 @@ button {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   font-weight: 500;
   padding: 14px 16px;
-  border-radius: 8px;
+  border-radius: 0;
   font-size: 16px;
   line-height: 1.4;
   width: 100%;
   transition: all 0.3s ease;
+}
+
+.moon-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  min-height: 50px;
+  border-radius: 0;
+  border: 2px solid #e0e0e0;
+  color: var(--nasa-dark-gray);
+  background-color: white;
+  font-weight: 600;
+}
+
+.moon-filter input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--nasa-blue);
+}
+
+.moon-filter-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.moon-filter:has(input:checked) {
+  border-color: var(--nasa-red);
+  box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
 }
 
 /* Date inputs */
@@ -168,7 +197,8 @@ button:active {
   }
   
   input[type="date"],
-  button {
+  button,
+  .moon-filter {
     width: auto;
     flex: 1;
   }
@@ -182,7 +212,7 @@ button:active {
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
+  gap: 28px;
   padding: 20px 0;
   justify-content: center;
 }
@@ -192,17 +222,34 @@ button:active {
   flex: 1 1 100%;
   min-width: 280px;
   max-width: 500px;
-  background: white;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
   padding: 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(11, 61, 145, 0.1);
+  border-radius: 0;
+  box-shadow: 0 10px 28px rgba(11, 61, 145, 0.11);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border-left: 5px solid var(--nasa-blue);
+  border: 1px solid rgba(11, 61, 145, 0.1);
+  border-left: 4px solid var(--nasa-blue);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   animation: scaleIn 0.5s ease-out;
+  animation-delay: var(--card-delay, 0ms);
+  animation-fill-mode: both;
+  position: relative;
+  will-change: transform, box-shadow;
+}
+
+.gallery-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--nasa-blue), var(--nasa-accent));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 @keyframes scaleIn {
@@ -217,37 +264,45 @@ button:active {
 }
 
 .gallery-item:hover {
-  box-shadow: 0 16px 40px rgba(11, 61, 145, 0.2);
-  transform: translateY(-8px);
+  box-shadow: 0 24px 56px rgba(11, 61, 145, 0.24);
+  transform: translateY(-12px) scale(1.01);
   border-left-color: var(--nasa-red);
+  border-color: rgba(11, 61, 145, 0.2);
+}
+
+.gallery-item:hover::before {
+  opacity: 1;
 }
 
 .gallery-item img {
   width: 100%;
-  height: 220px;
+  height: 230px;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.45s ease, filter 0.45s ease;
 }
 
 .gallery-item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  filter: saturate(1.08) contrast(1.05);
 }
 
 .gallery-item h3 {
   color: var(--nasa-blue);
   margin-top: 0;
-  padding: 16px 16px 8px;
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.4;
+  padding: 18px 18px 8px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: 0.1px;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .gallery-item p {
   margin: 0;
-  padding: 0 16px 16px;
+  padding: 0 18px 18px;
   font-size: 14px;
-  color: #666;
-  line-height: 1.5;
+  color: #5b6573;
+  line-height: 1.6;
   flex-grow: 1;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -255,16 +310,49 @@ button:active {
   overflow: hidden;
 }
 
+.gallery-date {
+  color: var(--nasa-red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  line-height: 1.3;
+  transition: color 0.3s ease, letter-spacing 0.3s ease;
+}
+
+.gallery-item:hover h3 {
+  color: var(--nasa-red);
+  transform: translateX(2px);
+}
+
+.gallery-item:hover .gallery-date {
+  color: var(--nasa-blue);
+  letter-spacing: 0.8px;
+}
+
 /* Video placeholder styles */
 .video-placeholder {
   width: 100%;
-  height: 220px;
-  background: linear-gradient(135deg, #0B3D91 0%, #E81B23 100%);
+  height: 230px;
+  background: radial-gradient(circle at 20% 20%, #1e56b8 0%, #0b3d91 45%, #081f4f 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   font-size: 48px;
+  transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+.gallery-item:hover .video-placeholder {
+  transform: scale(1.03);
+  filter: brightness(1.08);
+}
+
+.video-placeholder::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.28));
 }
 
 .play-button {
@@ -272,6 +360,7 @@ button:active {
   color: white;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   animation: pulse 2s ease-in-out infinite;
+  z-index: 1;
 }
 
 @keyframes pulse {
@@ -287,14 +376,15 @@ button:active {
   position: absolute;
   top: 12px;
   right: 12px;
-  background-color: var(--nasa-red);
+  background: linear-gradient(135deg, var(--nasa-red), #b91519);
   color: white;
   padding: 6px 12px;
-  border-radius: 20px;
+  border-radius: 0;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 1px;
-  box-shadow: 0 2px 8px rgba(232, 27, 35, 0.3);
+  letter-spacing: 0.9px;
+  box-shadow: 0 6px 14px rgba(232, 27, 35, 0.35);
+  z-index: 1;
 }
 
 .gallery-item:hover .play-button {
@@ -316,7 +406,7 @@ button:active {
   padding: 60px 40px;
   color: var(--nasa-dark-gray);
   background: linear-gradient(135deg, rgba(11, 61, 145, 0.02) 0%, rgba(232, 27, 35, 0.02) 100%);
-  border-radius: 12px;
+  border-radius: 0;
   animation: fadeIn 0.6s ease-out;
 }
 
@@ -378,7 +468,7 @@ button:active {
 .modal-content {
   background-color: white;
   padding: 30px;
-  border-radius: 16px;
+  border-radius: 0;
   max-width: 600px;
   width: 90%;
   max-height: 90vh;
@@ -414,7 +504,7 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 .modal-close:hover {
@@ -426,7 +516,7 @@ button:active {
   width: 100%;
   max-height: 400px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0;
   margin-bottom: 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
@@ -459,7 +549,7 @@ button:active {
   width: 100%;
   height: 300px;
   background: linear-gradient(135deg, var(--nasa-blue) 0%, var(--nasa-red) 100%);
-  border-radius: 8px;
+  border-radius: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -481,7 +571,7 @@ button:active {
   background-color: white;
   color: var(--nasa-blue);
   padding: 14px 32px;
-  border-radius: 8px;
+  border-radius: 0;
   text-decoration: none;
   font-weight: 700;
   font-size: 16px;
