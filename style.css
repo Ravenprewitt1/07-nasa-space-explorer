@@ -208,6 +208,27 @@ button:active {
   }
 }
 
+.space-fact {
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  background: linear-gradient(120deg, #0b3d91 0%, #0f4fbf 60%, #00d4ff 100%);
+  color: white;
+  box-shadow: 0 10px 30px rgba(11, 61, 145, 0.22);
+  animation: fadeIn 0.6s ease-out 0.3s both;
+}
+
+.space-fact h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  letter-spacing: 0.3px;
+}
+
+.space-fact p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.95);
+}
+
 /* Gallery flex container */
 .gallery {
   display: flex;
@@ -330,29 +351,37 @@ button:active {
   letter-spacing: 0.8px;
 }
 
-/* Video placeholder styles */
-.video-placeholder {
+/* Video preview styles */
+.video-preview {
   width: 100%;
   height: 230px;
-  background: radial-gradient(circle at 20% 20%, #1e56b8 0%, #0b3d91 45%, #081f4f 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  font-size: 48px;
+  overflow: hidden;
+}
+
+.video-preview-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #0b1f49;
   transition: transform 0.45s ease, filter 0.45s ease;
 }
 
-.gallery-item:hover .video-placeholder {
-  transform: scale(1.03);
-  filter: brightness(1.08);
+.gallery-item:hover .video-preview-image {
+  transform: scale(1.06);
+  filter: brightness(1.08) saturate(1.05);
 }
 
-.video-placeholder::after {
+.video-preview::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.28));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.34));
 }
 
 .play-button {
@@ -548,14 +577,29 @@ button:active {
 .modal-video-section {
   width: 100%;
   height: 300px;
-  background: linear-gradient(135deg, var(--nasa-blue) 0%, var(--nasa-red) 100%);
+  background: #0b1f49;
   border-radius: 0;
+  display: block;
+  margin-bottom: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-video-preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background-color: #0b1f49;
+}
+
+.modal-video-overlay {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
-  position: relative;
+  background: linear-gradient(180deg, rgba(7, 16, 42, 0.25), rgba(7, 16, 42, 0.62));
 }
 
 .modal-video-icon {

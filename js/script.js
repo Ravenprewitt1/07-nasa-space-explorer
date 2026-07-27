@@ -3,6 +3,7 @@ const startInput = document.getElementById('startDate');
 const endInput = document.getElementById('endDate');
 const moonFilterInput = document.getElementById('moonFilter');
 const getImagesButton = document.querySelector('.filters button');
+const spaceFactText = document.getElementById('spaceFactText');
 const gallery = document.getElementById('gallery');
 
 let currentApodItems = [];
@@ -10,6 +11,7 @@ let currentApodItems = [];
 // Modal elements
 const modal = document.getElementById('modal');
 const modalClose = document.querySelector('.modal-close');
+const modalContent = document.querySelector('.modal-content');
 const modalMedia = document.getElementById('modalMedia');
 const modalTitle = document.getElementById('modalTitle');
 const modalDate = document.getElementById('modalDate');
@@ -20,11 +22,28 @@ const modalExplanation = document.getElementById('modalExplanation');
 const API_KEY = 'mZkCobXxsDgQm4oNWID8idj6Zsg8vTp1Hu0ztawa';
 const APOD_URL = 'https://api.nasa.gov/planetary/apod';
 
+const spaceFacts = [
+  'A day on Venus is longer than a year on Venus.',
+  'Neutron stars can spin at over 600 rotations per second.',
+  'Jupiter has the shortest day of all planets, about 10 hours long.',
+  'The footprints left on the Moon can last for millions of years.',
+  'Saturn could float in water because its average density is so low.',
+  'The International Space Station travels around Earth every 90 minutes.',
+  'Olympus Mons on Mars is the tallest known volcano in the solar system.',
+  'Sunlight takes about 8 minutes and 20 seconds to reach Earth.'
+];
+
 // Call the setupDateInputs function from dateRange.js
 // This sets up the date pickers to:
 // - Default to a range of 9 days (from 9 days ago to today)
 // - Restrict dates to NASA's image archive (starting from 1995)
 setupDateInputs(startInput, endInput);
+showRandomSpaceFact();
+
+function showRandomSpaceFact() {
+  const randomIndex = Math.floor(Math.random() * spaceFacts.length);
+  spaceFactText.textContent = spaceFacts[randomIndex];
+}
 
 function showMessage(message) {
   gallery.innerHTML = '';
@@ -60,7 +79,12 @@ function createGalleryItem(apodItem) {
     card.appendChild(image);
   } else if (apodItem.media_type === 'video') {
     const videoContainer = document.createElement('div');
-    videoContainer.className = 'video-placeholder';
+    videoContainer.className = 'video-preview';
+
+    const videoPreviewImage = document.createElement('img');
+    videoPreviewImage.className = 'video-preview-image';
+    videoPreviewImage.src = getVideoPreviewUrl(apodItem);
+    videoPreviewImage.alt = apodItem.title;
     
     const playButton = document.createElement('div');
     playButton.className = 'play-button';
@@ -70,6 +94,7 @@ function createGalleryItem(apodItem) {
     videoBadge.className = 'video-badge';
     videoBadge.textContent = 'VIDEO';
     
+    videoContainer.appendChild(videoPreviewImage);
     videoContainer.appendChild(playButton);
     videoContainer.appendChild(videoBadge);
     card.appendChild(videoContainer);
@@ -91,6 +116,20 @@ function createGalleryItem(apodItem) {
   });
 
   return card;
+}
+
+function getVideoPreviewUrl(apodItem) {
+  if (apodItem.thumbnail_url) {
+    return apodItem.thumbnail_url;
+  }
+
+  // Fallback for YouTube links if thumbnail_url is missing.
+  const youtubeMatch = apodItem.url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?/]+)/);
+  if (youtubeMatch) {
+    return 'https://img.youtube.com/vi/' + youtubeMatch[1] + '/hqdefault.jpg';
+  }
+
+  return 'img/nasa-worm-logo.png';
 }
 
 function isMoonItem(apodItem) {
@@ -137,6 +176,14 @@ function openModal(apodItem) {
   } else if (apodItem.media_type === 'video') {
     const videoSection = document.createElement('div');
     videoSection.className = 'modal-video-section';
+
+    const previewImage = document.createElement('img');
+    previewImage.className = 'modal-video-preview-image';
+    previewImage.src = getVideoPreviewUrl(apodItem);
+    previewImage.alt = apodItem.title;
+
+    const previewOverlay = document.createElement('div');
+    previewOverlay.className = 'modal-video-overlay';
     
     const videoIcon = document.createElement('div');
     videoIcon.className = 'modal-video-icon';
@@ -149,11 +196,15 @@ function openModal(apodItem) {
     watchButton.className = 'watch-video-button';
     watchButton.textContent = 'Watch on YouTube';
     
-    videoSection.appendChild(videoIcon);
-    videoSection.appendChild(watchButton);
+    previewOverlay.appendChild(videoIcon);
+    previewOverlay.appendChild(watchButton);
+    videoSection.appendChild(previewImage);
+    videoSection.appendChild(previewOverlay);
     modalMedia.appendChild(videoSection);
   }
   
+  // Always start at the top when opening a card.
+  modalContent.scrollTop = 0;
   modal.classList.add('active');
 }
 
@@ -181,7 +232,8 @@ async function fetchSpaceImagesByDateRange() {
     APOD_URL +
     '?api_key=' + API_KEY +
     '&start_date=' + startDate +
-    '&end_date=' + endDate;
+    '&end_date=' + endDate +
+    '&thumbs=true';
 
   try {
     const response = await fetch(url);
