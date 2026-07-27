@@ -7,7 +7,7 @@ const gallery = document.getElementById('gallery');
 // Modal elements
 const modal = document.getElementById('modal');
 const modalClose = document.querySelector('.modal-close');
-const modalImage = document.getElementById('modalImage');
+const modalMedia = document.getElementById('modalMedia');
 const modalTitle = document.getElementById('modalTitle');
 const modalDate = document.getElementById('modalDate');
 const modalExplanation = document.getElementById('modalExplanation');
@@ -56,12 +56,20 @@ function createGalleryItem(apodItem) {
     image.alt = apodItem.title;
     card.appendChild(image);
   } else if (apodItem.media_type === 'video') {
-    const videoLink = document.createElement('a');
-    videoLink.href = apodItem.url;
-    videoLink.target = '_blank';
-    videoLink.rel = 'noopener noreferrer';
-    videoLink.textContent = 'Watch video: ' + apodItem.title;
-    card.appendChild(videoLink);
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-placeholder';
+    
+    const playButton = document.createElement('div');
+    playButton.className = 'play-button';
+    playButton.textContent = '▶';
+    
+    const videoBadge = document.createElement('div');
+    videoBadge.className = 'video-badge';
+    videoBadge.textContent = 'VIDEO';
+    
+    videoContainer.appendChild(playButton);
+    videoContainer.appendChild(videoBadge);
+    card.appendChild(videoContainer);
   }
 
   const title = document.createElement('h3');
@@ -82,11 +90,39 @@ function createGalleryItem(apodItem) {
 }
 
 function openModal(apodItem) {
-  modalImage.src = apodItem.url;
-  modalImage.alt = apodItem.title;
   modalTitle.textContent = apodItem.title;
   modalDate.textContent = 'Date: ' + apodItem.date;
   modalExplanation.textContent = apodItem.explanation;
+  
+  // Clear previous content
+  modalMedia.innerHTML = '';
+  
+  if (apodItem.media_type === 'image') {
+    const img = document.createElement('img');
+    img.className = 'modal-image';
+    img.src = apodItem.url;
+    img.alt = apodItem.title;
+    modalMedia.appendChild(img);
+  } else if (apodItem.media_type === 'video') {
+    const videoSection = document.createElement('div');
+    videoSection.className = 'modal-video-section';
+    
+    const videoIcon = document.createElement('div');
+    videoIcon.className = 'modal-video-icon';
+    videoIcon.textContent = '▶';
+    
+    const watchButton = document.createElement('a');
+    watchButton.href = apodItem.url;
+    watchButton.target = '_blank';
+    watchButton.rel = 'noopener noreferrer';
+    watchButton.className = 'watch-video-button';
+    watchButton.textContent = 'Watch on YouTube';
+    
+    videoSection.appendChild(videoIcon);
+    videoSection.appendChild(watchButton);
+    modalMedia.appendChild(videoSection);
+  }
+  
   modal.classList.add('active');
 }
 
