@@ -187,7 +187,7 @@ function openModal(apodItem) {
     
     const videoIcon = document.createElement('div');
     videoIcon.className = 'modal-video-icon';
-    videoIcon.textContent = '▶';
+   
     
     const watchButton = document.createElement('a');
     watchButton.href = apodItem.url;
@@ -204,12 +204,21 @@ function openModal(apodItem) {
   }
   
   // Always start at the top when opening a card.
-  modalContent.scrollTop = 0;
+  resetModalScroll();
   modal.classList.add('active');
+
+  // Some browsers apply scroll restoration after layout.
+  requestAnimationFrame(resetModalScroll);
 }
 
 function closeModal() {
   modal.classList.remove('active');
+}
+
+function resetModalScroll() {
+  modal.scrollTop = 0;
+  modalContent.scrollTop = 0;
+  modalContent.scrollTo(0, 0);
 }
 
 async function fetchSpaceImagesByDateRange() {
