@@ -8,16 +8,41 @@
 /* NASA Brand Colors */
 :root {
   --nasa-blue: #0B3D91;
-  --nasa-red: #E81B23;
-  --nasa-light-gray: #f8f9fa;
-  --nasa-dark-gray: #1a1a1a;
-  --nasa-accent: #00d4ff;
+  --nasa-red: #FC3D21;
+  --nasa-white: #FFFFFF;
+  --nasa-black: #000000;
+
+  /* Hex-alpha variants to keep visual depth while staying on-brand */
+  --nasa-blue-02: #0B3D9105;
+  --nasa-blue-08: #0B3D9114;
+  --nasa-blue-10: #0B3D911A;
+  --nasa-blue-11: #0B3D911C;
+  --nasa-blue-20: #0B3D9133;
+  --nasa-blue-22: #0B3D9138;
+  --nasa-blue-24: #0B3D913D;
+  --nasa-blue-40: #0B3D9166;
+  --nasa-blue-80: #0B3D91CC;
+
+  --nasa-red-02: #FC3D2105;
+  --nasa-red-10: #FC3D211A;
+  --nasa-red-30: #FC3D214D;
+  --nasa-red-35: #FC3D2159;
+
+  --white-06: #FFFFFF0F;
+  --white-20: #FFFFFF33;
+  --white-95: #FFFFFFF2;
+
+  --black-10: #0000001A;
+  --black-15: #00000026;
+  --black-20: #00000033;
+  --black-30: #0000004D;
+  --black-34: #00000057;
 }
 
 /* Base page styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(135deg, var(--nasa-light-gray) 0%, #f0f4f8 100%);
+  background: linear-gradient(135deg, var(--nasa-white) 0%, var(--nasa-blue-02) 100%);
   padding: 20px;
   min-height: 100vh;
 }
@@ -35,9 +60,9 @@ body {
   justify-content: center;
   padding: 30px 20px;
   margin-bottom: 30px;
-  background: linear-gradient(135deg, var(--nasa-blue) 0%, #0a2d75 100%);
+  background: linear-gradient(135deg, var(--nasa-blue) 0%, var(--nasa-blue) 100%);
   border-radius: 0;
-  box-shadow: 0 10px 40px rgba(11, 61, 145, 0.2);
+  box-shadow: 0 10px 40px var(--nasa-blue-20);
   animation: slideDown 0.6s ease-out;
 }
 
@@ -55,17 +80,17 @@ body {
 h1 {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
   font-weight: 700;
-  color: white;
+  color: var(--nasa-white);
   font-size: 36px;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  text-shadow: 0 2px 10px var(--black-20);
 }
 
 /* Logo */
 .logo {
   width: 140px;
   margin-right: 20px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 2px 4px var(--black-20));
 }
 
 /* Date‐picker & button row */
@@ -76,9 +101,9 @@ h1 {
   justify-content: center;
   margin-bottom: 40px;
   padding: 25px;
-  background: white;
+  background: var(--nasa-white);
   border-radius: 0;
-  box-shadow: 0 4px 20px rgba(11, 61, 145, 0.08);
+  box-shadow: 0 4px 20px var(--nasa-blue-08);
   animation: fadeIn 0.6s ease-out 0.2s both;
 }
 
@@ -113,9 +138,9 @@ button {
   padding: 0 14px;
   min-height: 50px;
   border-radius: 0;
-  border: 2px solid #e0e0e0;
-  color: var(--nasa-dark-gray);
-  background-color: white;
+  border: 2px solid var(--black-15);
+  color: var(--nasa-black);
+  background-color: var(--nasa-white);
   font-weight: 600;
 }
 
@@ -126,9 +151,9 @@ button {
   padding: 0 14px;
   min-height: 50px;
   border-radius: 0;
-  border: 2px solid #e0e0e0;
-  color: var(--nasa-dark-gray);
-  background-color: white;
+  border: 2px solid var(--black-15);
+  color: var(--nasa-black);
+  background-color: var(--nasa-white);
   font-weight: 600;
 }
 
@@ -156,36 +181,36 @@ button {
 
 .moon-filter:has(input:checked) {
   border-color: var(--nasa-red);
-  box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
+  box-shadow: 0 0 0 4px var(--nasa-red-10);
 }
 
 .video-filter:has(input:checked) {
   border-color: var(--nasa-red);
-  box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
+  box-shadow: 0 0 0 4px var(--nasa-red-10);
 }
 
 /* Date inputs */
 input[type="date"] {
-  color: var(--nasa-dark-gray);
-  border: 2px solid #e0e0e0;
-  background-color: white;
+  color: var(--nasa-black);
+  border: 2px solid var(--black-15);
+  background-color: var(--nasa-white);
 }
 
 input[type="date"]:hover {
   border-color: var(--nasa-blue);
-  box-shadow: 0 2px 8px rgba(11, 61, 145, 0.1);
+  box-shadow: 0 2px 8px var(--nasa-blue-10);
 }
 
 input[type="date"]:focus {
   outline: none;
   border-color: var(--nasa-red);
-  box-shadow: 0 0 0 4px rgba(232, 27, 35, 0.1);
+  box-shadow: 0 0 0 4px var(--nasa-red-10);
 }
 
 /* Button specific */
 button {
-  background: linear-gradient(135deg, var(--nasa-blue) 0%, #0a2d75 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--nasa-blue) 0%, var(--nasa-blue) 100%);
+  color: var(--nasa-white);
   cursor: pointer;
   font-weight: 600;
   border: none;
@@ -200,7 +225,7 @@ button::before {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, var(--white-20), transparent);
   transition: left 0.5s ease;
 }
 
@@ -209,9 +234,9 @@ button:hover::before {
 }
 
 button:hover {
-  background: linear-gradient(135deg, var(--nasa-red) 0%, #b91519 100%);
+  background: linear-gradient(135deg, var(--nasa-red) 0%, var(--nasa-red) 100%);
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(232, 27, 35, 0.3);
+  box-shadow: 0 8px 20px var(--nasa-red-30);
 }
 
 button:active {
@@ -241,9 +266,10 @@ button:active {
 .space-fact {
   margin-bottom: 28px;
   padding: 20px 24px;
-  background: linear-gradient(120deg, #0b3d91 0%, #0f4fbf 60%, #00d4ff 100%);
-  color: white;
-  box-shadow: 0 10px 30px rgba(11, 61, 145, 0.22);
+  background: linear-gradient(120deg, var(--nasa-blue) 0%, var(--nasa-blue) 100%);
+  color: var(--nasa-white);
+  border-left: 6px solid var(--nasa-red);
+  box-shadow: 0 10px 30px var(--nasa-blue-22);
   animation: fadeIn 0.6s ease-out 0.3s both;
 }
 
@@ -251,12 +277,13 @@ button:active {
   font-size: 20px;
   margin-bottom: 8px;
   letter-spacing: 0.3px;
+  color: var(--nasa-white);
 }
 
 .space-fact p {
   font-size: 16px;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--white-95);
 }
 
 /* Gallery flex container */
@@ -273,14 +300,14 @@ button:active {
   flex: 1 1 100%;
   min-width: 280px;
   max-width: 500px;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+  background: linear-gradient(180deg, var(--nasa-white) 0%, var(--nasa-white) 100%);
   padding: 0;
   border-radius: 0;
-  box-shadow: 0 10px 28px rgba(11, 61, 145, 0.11);
+  box-shadow: 0 10px 28px var(--nasa-blue-11);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(11, 61, 145, 0.1);
+  border: 1px solid var(--nasa-blue-10);
   border-left: 4px solid var(--nasa-blue);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
@@ -315,10 +342,10 @@ button:active {
 }
 
 .gallery-item:hover {
-  box-shadow: 0 24px 56px rgba(11, 61, 145, 0.24);
+  box-shadow: 0 24px 56px var(--nasa-blue-24);
   transform: translateY(-12px) scale(1.01);
   border-left-color: var(--nasa-red);
-  border-color: rgba(11, 61, 145, 0.2);
+  border-color: var(--nasa-blue-20);
 }
 
 .gallery-item:hover::before {
@@ -352,7 +379,7 @@ button:active {
   margin: 0;
   padding: 0 18px 18px;
   font-size: 14px;
-  color: #5b6573;
+  color: var(--nasa-black);
   line-height: 1.6;
   flex-grow: 1;
   display: -webkit-box;
@@ -398,7 +425,7 @@ button:active {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background-color: #0b1f49;
+  background-color: var(--nasa-blue);
   transition: transform 0.45s ease, filter 0.45s ease;
 }
 
@@ -411,13 +438,13 @@ button:active {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.34));
+  background: linear-gradient(180deg, var(--white-06), var(--black-34));
 }
 
 .play-button {
   font-size: 64px;
-  color: white;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: var(--nasa-white);
+  text-shadow: 0 2px 8px var(--black-30);
   animation: pulse 2s ease-in-out infinite;
   z-index: 1;
 }
@@ -435,14 +462,14 @@ button:active {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: linear-gradient(135deg, var(--nasa-red), #b91519);
-  color: white;
+  background: linear-gradient(135deg, var(--nasa-red), var(--nasa-red));
+  color: var(--nasa-white);
   padding: 6px 12px;
   border-radius: 0;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.9px;
-  box-shadow: 0 6px 14px rgba(232, 27, 35, 0.35);
+  box-shadow: 0 6px 14px var(--nasa-red-35);
   z-index: 1;
 }
 
@@ -463,8 +490,8 @@ button:active {
   flex: 1 1 100%;
   text-align: center;
   padding: 60px 40px;
-  color: var(--nasa-dark-gray);
-  background: linear-gradient(135deg, rgba(11, 61, 145, 0.02) 0%, rgba(232, 27, 35, 0.02) 100%);
+  color: var(--nasa-black);
+  background: linear-gradient(135deg, var(--nasa-blue-02) 0%, var(--nasa-red-02) 100%);
   border-radius: 0;
   animation: fadeIn 0.6s ease-out;
 }
@@ -500,7 +527,7 @@ button:active {
 
 .placeholder p {
   font-size: 16px;
-  color: #666;
+  color: var(--nasa-black);
   font-weight: 500;
 }
 
@@ -513,7 +540,7 @@ button:active {
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 61, 145, 0.8);
+  background-color: var(--nasa-blue-80);
   backdrop-filter: blur(4px);
   animation: fadeIn 0.3s ease;
 }
@@ -525,14 +552,14 @@ button:active {
 }
 
 .modal-content {
-  background-color: white;
+  background-color: var(--nasa-white);
   padding: 30px;
   border-radius: 0;
   max-width: 600px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(11, 61, 145, 0.4);
+  box-shadow: 0 20px 60px var(--nasa-blue-40);
   position: relative;
   border-top: 5px solid var(--nasa-red);
   animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -568,7 +595,7 @@ button:active {
 }
 
 .modal-close:hover {
-  background: rgba(11, 61, 145, 0.1);
+  background: var(--nasa-blue-10);
   color: var(--nasa-red);
 }
 
@@ -578,7 +605,7 @@ button:active {
   object-fit: cover;
   border-radius: 0;
   margin-bottom: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px var(--black-10);
 }
 
 #modalTitle {
@@ -601,14 +628,14 @@ button:active {
 .modal-explanation {
   font-size: 15px;
   line-height: 1.7;
-  color: #333;
+  color: var(--nasa-black);
 }
 
 /* Modal video section */
 .modal-video-section {
   width: 100%;
   height: 300px;
-  background: #0b1f49;
+  background: var(--nasa-blue);
   border-radius: 0;
   display: block;
   margin-bottom: 20px;
@@ -620,7 +647,7 @@ button:active {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background-color: #0b1f49;
+  background-color: var(--nasa-blue);
 }
 
 .modal-video-overlay {
@@ -630,20 +657,20 @@ button:active {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(180deg, rgba(7, 16, 42, 0.25), rgba(7, 16, 42, 0.62));
+  background: linear-gradient(180deg, var(--nasa-blue-20), var(--nasa-blue-40));
 }
 
 .modal-video-icon {
   font-size: 72px;
-  color: white;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  color: var(--nasa-white);
+  text-shadow: 0 2px 10px var(--black-30);
   margin-bottom: 20px;
   animation: pulse 2s ease-in-out infinite;
 }
 
 .watch-video-button {
   display: inline-block;
-  background-color: white;
+  background-color: var(--nasa-white);
   color: var(--nasa-blue);
   padding: 14px 32px;
   border-radius: 0;
@@ -651,13 +678,36 @@ button:active {
   font-weight: 700;
   font-size: 16px;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px var(--black-15);
   cursor: pointer;
 }
 
 .watch-video-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 20px var(--black-20);
   background-color: var(--nasa-red);
-  color: white;
+  color: var(--nasa-white);
+}
+
+/* Footer */
+.site-footer {
+  margin-top: 36px;
+  padding: 18px 20px;
+  background: transparent;
+  color: var(--nasa-black);
+  text-align: center;
+  border-top: 0;
+  box-shadow: none;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.site-footer-note {
+  margin-top: 4px;
+  color: var(--nasa-black);
+  font-size: 11px;
 }
