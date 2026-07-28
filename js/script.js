@@ -46,6 +46,45 @@ function showRandomSpaceFact() {
   spaceFactText.textContent = spaceFacts[randomIndex];
 }
 
+function triggerMoonStarEffect() {
+  // Respect users who prefer reduced motion.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return;
+  }
+
+  const overlay = document.createElement('div');
+  overlay.className = 'star-effect-overlay';
+
+  const totalStars = 70;
+
+  for (let i = 0; i < totalStars; i++) {
+    const star = document.createElement('span');
+    star.className = 'star-particle';
+
+    const size = Math.random() * 3 + 1;
+    const xPosition = Math.random() * 100;
+    const delay = Math.random() * 350;
+    const duration = 1100 + Math.random() * 900;
+    const distance = 80 + Math.random() * 30;
+
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = xPosition + 'vw';
+    star.style.setProperty('--star-delay', delay + 'ms');
+    star.style.setProperty('--star-duration', duration + 'ms');
+    star.style.setProperty('--star-distance', distance + 'vh');
+
+    overlay.appendChild(star);
+  }
+
+  document.body.appendChild(overlay);
+
+  // Clean up after the effect finishes.
+  setTimeout(() => {
+    overlay.remove();
+  }, 2400);
+}
+
 function showMessage(message) {
   gallery.innerHTML = '';
 
@@ -292,6 +331,8 @@ async function fetchSpaceImagesByDateRange() {
 getImagesButton.addEventListener('click', fetchSpaceImagesByDateRange);
 
 moonFilterInput.addEventListener('change', () => {
+  triggerMoonStarEffect();
+
   if (currentApodItems.length === 0) {
     return;
   }

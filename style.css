@@ -689,6 +689,50 @@ button:active {
   color: var(--nasa-white);
 }
 
+/* Full-screen star effect shown when Moon filter is clicked */
+.star-effect-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3000;
+}
+
+.star-particle {
+  position: absolute;
+  top: -12px;
+  border-radius: 50%;
+  background: var(--nasa-white);
+  box-shadow: 0 0 8px var(--nasa-white), 0 0 18px var(--white-95);
+  animation: starFall var(--star-duration, 1400ms) ease-out forwards,
+             starTwinkle 500ms ease-in-out infinite;
+  animation-delay: var(--star-delay, 0ms), var(--star-delay, 0ms);
+}
+
+@keyframes starFall {
+  0% {
+    transform: translateY(0) scale(0.3);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(var(--star-distance, 95vh)) scale(1);
+    opacity: 0;
+  }
+}
+
+@keyframes starTwinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Footer */
 .site-footer {
   margin-top: 36px;
